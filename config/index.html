@@ -53,11 +53,7 @@
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../getting/">Getting Started</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../uarch/">Microarchitecture</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../getting/">Getting started</a>
                     </li>
                 </ul>
                 <ul class="current">
@@ -67,19 +63,31 @@
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../steelio/">Input and Output Signals</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../steelio/">I/O signals</a>
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../timing/">Timing Diagrams</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../timing/">Timing diagrams</a>
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../traps/">Exceptions and Interrupts</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../software/">Compiling software for Steel</a>
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../details/">Implementation Details</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../examplesoc/">Example system</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../traps/">Exceptions and interrupts</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../uarch/">Microarchitecture</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../details/">Implementation details</a>
                     </li>
                 </ul>
       </div>
@@ -118,7 +126,7 @@
             <div class="section">
               
                 <h1 id="configuration">Configuration</h1>
-<p>Steel has only one configuration parameter, the boot address, which is the address of the first instruction the core will fetch after reset. It is defined when instantiating Steel (read the section <a href="../getting/">Getting Started</a>). If you omit this parameter at instantiation, the boot address will be set to its default value, <strong>32'h00000000</strong>.</p>
+<p>Steel has only one configuration parameter, the boot address, which is the address of the first instruction the core will fetch after reset. It is defined when instantiating Steel (read the section <a href="../getting/">Getting started</a>). If you omit this parameter at instantiation, the boot address will be set to <strong>0x00000000</strong>.</p>
               
             </div>
           </div>
@@ -126,10 +134,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../steelio/" class="btn btn-neutral float-right" title="Input and Output Signals">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../steelio/" class="btn btn-neutral float-right" title="I/O signals">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../uarch/" class="btn btn-neutral" title="Microarchitecture"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../getting/" class="btn btn-neutral" title="Getting started"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -157,7 +165,7 @@
           <a href="https://github.com/rafaelcalcada/steel-core/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../uarch/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../getting/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
         <span style="margin-left: 15px"><a href="../steelio/" style="color: #fcfcfc">Next &raquo;</a></span>

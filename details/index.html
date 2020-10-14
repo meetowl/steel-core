@@ -9,7 +9,7 @@
   <meta name="author" content="Rafael de Oliveira Calcada">
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Implementation Details - Steel Core Documentation</title>
+  <title>Implementation details - Steel Core Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -19,7 +19,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Implementation Details";
+    var mkdocs_page_name = "Implementation details";
     var mkdocs_page_input_path = "details.md";
     var mkdocs_page_url = null;
   </script>
@@ -53,11 +53,7 @@
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../getting/">Getting Started</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../uarch/">Microarchitecture</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../getting/">Getting started</a>
                     </li>
                 </ul>
                 <ul>
@@ -65,19 +61,31 @@
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../steelio/">Input and Output Signals</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../steelio/">I/O signals</a>
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../timing/">Timing Diagrams</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../timing/">Timing diagrams</a>
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../traps/">Exceptions and Interrupts</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../software/">Compiling software for Steel</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../examplesoc/">Example system</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../traps/">Exceptions and interrupts</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../uarch/">Microarchitecture</a>
                     </li>
                 </ul>
                 <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Implementation Details</a>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Implementation details</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#implemented-csrs">Implemented CSRs</a>
     </li>
@@ -127,7 +135,7 @@
     
       
     
-    <li>Implementation Details</li>
+    <li>Implementation details</li>
     <li class="wy-breadcrumbs-aside">
       
         <a href="https://github.com/rafaelcalcada/steel-core/edit/master/docs/details.md"
@@ -141,10 +149,10 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="implementation-details">Implementation Details</h1>
+                <h1 id="implementation-details">Implementation details</h1>
 <p>This section contains information on implementation details. It is intended for those who want to know more about how Steel works.</p>
 <h2 id="implemented-csrs">Implemented CSRs</h2>
-<p>The control and status registers implemented in Steel are shown in table 1, below. The required M-mode registers not shown in the table return the hardwired value predicted by RISC-V specifications when read.</p>
+<p>The control and status registers implemented in Steel are shown in table 1, below. Other M-mode registers not shown in the table return the hardwired value defined by the RISC-V specifications when read.</p>
 <p align=left>
 <strong>Table 1.</strong> Implemented CSRs
 </p>
@@ -1103,11 +1111,14 @@
 </tr>
 </tbody>
 </table>
-<p align=center>
-<strong>Figure 1.</strong> Machine Control finite state machine
+<p align="center">
+<img src="../images/steel-fsm.png" width="80%"></img>
+</br>
+</br>
+<strong>Fig. 1:</strong> Machine Control finite state machine
 </p>
 
-<p><img alt="Machine Control FSM" src="../images/steel-fsm.png" /></p>
+<p><img alt="Machine Control FSM" src="" /></p>
               
             </div>
           </div>
@@ -1116,7 +1127,7 @@
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="../traps/" class="btn btn-neutral" title="Exceptions and Interrupts"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../uarch/" class="btn btn-neutral" title="Microarchitecture"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -1144,7 +1155,7 @@
           <a href="https://github.com/rafaelcalcada/steel-core/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../traps/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../uarch/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
     </span>

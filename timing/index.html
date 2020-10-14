@@ -9,7 +9,7 @@
   <meta name="author" content="Rafael de Oliveira Calcada">
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Timing Diagrams - Steel Core Documentation</title>
+  <title>Timing diagrams - Steel Core Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -19,7 +19,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Timing Diagrams";
+    var mkdocs_page_name = "Timing diagrams";
     var mkdocs_page_input_path = "timing.md";
     var mkdocs_page_url = null;
   </script>
@@ -53,11 +53,7 @@
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../getting/">Getting Started</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../uarch/">Microarchitecture</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../getting/">Getting started</a>
                     </li>
                 </ul>
                 <ul>
@@ -65,11 +61,11 @@
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../steelio/">Input and Output Signals</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../steelio/">I/O signals</a>
                     </li>
                 </ul>
                 <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Timing Diagrams</a>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Timing diagrams</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#instruction-fetch">Instruction fetch</a>
     </li>
@@ -79,17 +75,29 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#interrupt-request">Interrupt request</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#time-csr-update">time CSR update</a>
+    <li class="toctree-l2"><a class="reference internal" href="#time-csr-update">Time CSR update</a>
     </li>
     </ul>
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../traps/">Exceptions and Interrupts</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../software/">Compiling software for Steel</a>
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../details/">Implementation Details</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../examplesoc/">Example system</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../traps/">Exceptions and interrupts</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../uarch/">Microarchitecture</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../details/">Implementation details</a>
                     </li>
                 </ul>
       </div>
@@ -113,7 +121,7 @@
     
       
     
-    <li>Timing Diagrams</li>
+    <li>Timing diagrams</li>
     <li class="wy-breadcrumbs-aside">
       
         <a href="https://github.com/rafaelcalcada/steel-core/edit/master/docs/timing.md"
@@ -152,7 +160,7 @@
 <img src="../images/irq_wave.png" width="80%"></img>
 </p>
 
-<h2 id="time-csr-update"><em>time</em> CSR update</h2>
+<h2 id="time-csr-update">Time CSR update</h2>
 <p>When connected to a real-time counter, the core updates the <strong>time</strong> CSR with the value placed on <strong>REAL_TIME</strong> at each clock rising edge, as shown in the figure below. <strong>timeX</strong> denotes arbitrary time values.</p>
 <p align="center">
 <img src="../images/timeup_wave.png" width="80%"></img>
@@ -164,10 +172,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../traps/" class="btn btn-neutral float-right" title="Exceptions and Interrupts">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../software/" class="btn btn-neutral float-right" title="Compiling software for Steel">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../steelio/" class="btn btn-neutral" title="Input and Output Signals"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../steelio/" class="btn btn-neutral" title="I/O signals"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -198,7 +206,7 @@
         <span><a href="../steelio/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../traps/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../software/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

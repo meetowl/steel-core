@@ -51,23 +51,21 @@
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="reference internal current" href=".">Overview</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#about-steel-core">About Steel Core</a>
+    <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#key-features">Key features</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#licensing">Licensing</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#specifications-version">Specifications version</a>
+    <li class="toctree-l2"><a class="reference internal" href="#specifications">Specifications</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#online-repository">Online repository</a>
+    <li class="toctree-l2"><a class="reference internal" href="#github-repo">GitHub repo</a>
     </li>
     </ul>
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="getting/">Getting Started</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="uarch/">Microarchitecture</a>
+                    <li class="toctree-l1"><a class="reference internal" href="getting/">Getting started</a>
                     </li>
                 </ul>
                 <ul>
@@ -75,19 +73,31 @@
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="steelio/">Input and Output Signals</a>
+                    <li class="toctree-l1"><a class="reference internal" href="steelio/">I/O signals</a>
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="timing/">Timing Diagrams</a>
+                    <li class="toctree-l1"><a class="reference internal" href="timing/">Timing diagrams</a>
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="traps/">Exceptions and Interrupts</a>
+                    <li class="toctree-l1"><a class="reference internal" href="software/">Compiling software for Steel</a>
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="details/">Implementation Details</a>
+                    <li class="toctree-l1"><a class="reference internal" href="examplesoc/">Example system</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="traps/">Exceptions and interrupts</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="uarch/">Microarchitecture</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="details/">Implementation details</a>
                     </li>
                 </ul>
       </div>
@@ -130,31 +140,28 @@
 </p>
 
 <h1 id="overview">Overview</h1>
-<h2 id="about-steel-core">About Steel Core</h2>
-<p>Steel is a 3-stage single-issue in-order RISC-V microprocessor core designed to be simple and easy to use. It is intended for use as a processing unit in embedded systems projects.</p>
-<p><strong>Key features:</strong></p>
+<h2 id="introduction">Introduction</h2>
+<p>Steel is a microprocessor core that implements the RV32I and Zicsr instruction sets of the RISC-V specifications. It is designed to be easy to use and targeted for embedded systems projects.</p>
+<h2 id="key-features">Key features</h2>
 <ul>
-<li>Easy to use</li>
-<li>Targeted for use in FPGAs</li>
-<li>Implements the RV32I base instruction set + Zicsr extension</li>
-<li>M-mode privilege level support</li>
+<li>Simple and easy to use</li>
+<li>Implements the RV32I base instruction set + Zicsr extension + M-mode privileged architecture</li>
+<li>3 pipeline stages, single-issue</li>
 <li>Hardware described in Verilog</li>
-<li>3 pipeline stages</li>
-<li>Single-issue</li>
-<li>Fully documented</li>
-<li>Passed all RV32IZicsr tests from RISC-V test and compliance suites</li>
-<li>1.36 CoreMarks / MHz</li>
+<li>Full documentation</li>
+<li>Passed all RISC-V Compliance Suite tests for the RV32I and Zicsr instruction sets</li>
+<li>1.36 CoreMarks/MHz</li>
 </ul>
 <h2 id="licensing">Licensing</h2>
-<p>Steel is distributed under the <a href="https://en.wikipedia.org/wiki/MIT_License">MIT License</a>. The license text is reproduced in the <code>LICENCE.md</code> file. Read it carefully and make sure you understand its terms before using Steel in your own projects.</p>
-<h2 id="specifications-version">Specifications version</h2>
-<p>Steel aims to be compliant with the following RISC-V specifications:</p>
+<p>Steel is distributed under the <a href="https://en.wikipedia.org/wiki/MIT_License">MIT License</a>. The license text is reproduced in the <code>LICENCE.md</code> file. Read it carefully and make sure you understand its terms before using Steel in your projects.</p>
+<h2 id="specifications">Specifications</h2>
+<p>Steel aims to be compliant with the following versions of the RISC-V specifications:</p>
 <ul>
 <li>Base ISA RV32I version <strong>2.1</strong></li>
 <li>Zicsr extension version <strong>2.0</strong></li>
 <li>Machine ISA version <strong>1.11</strong></li>
 </ul>
-<h2 id="online-repository">Online repository</h2>
+<h2 id="github-repo">GitHub repo</h2>
 <p>Steel files and documentation are available at GitHub (<a href="https://github.com/rafaelcalcada/steel-core">github.com/rafaelcalcada/steel-core</a>).</p>
               
             </div>
@@ -163,7 +170,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="getting/" class="btn btn-neutral float-right" title="Getting Started">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="getting/" class="btn btn-neutral float-right" title="Getting started">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
     </div>
@@ -212,5 +219,5 @@
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2020-10-12 04:15:39.046246+00:00
+Build Date UTC : 2020-10-14 22:54:15.338432+00:00
 -->

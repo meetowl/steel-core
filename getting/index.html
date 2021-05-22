@@ -57,9 +57,6 @@
     <a class="current" href="./">Getting started</a>
     <ul class="subnav">
             
-    <li class="toctree-l2"><a href="#getting-started">Getting started</a></li>
-    
-
     </ul>
 	    </li>
           
@@ -138,24 +135,23 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="getting-started">Getting started</h1>
-<p>To start using Steel, follow these steps:</p>
+                <p>A microprocessor by itself does not form a computer system, so you need to connect Steel to memory and peripherals to build a system that can do work for you. The <strong>soc</strong> folder has the project of a small example system that uses Steel, formed by Steel + RAM + UART interface. This project was built using the free version of Vivado (<a href="https://www.xilinx.com/products/design-tools/vivado.html">link</a>), an Artix-7 FPGA (Digilent Arty-A7 35T board, <a href="https://store.digilentinc.com/arty-a7-artix-7-fpga-development-board/">link</a>), and it sends a "Hello World!" message through the UART interface. The Arty-A7 board has a USB-UART bridge that enables you to connect the system to your computer using a USB cable, and then see this "Hello World!" message on the screen. Instructions to build and run this project can be found in the section <a href="../examplesoc/">Example system</a>.</p>
+<p>To use Steel as the microprocessor unit of your project, follow the steps below:</p>
 <ol>
-<li>Import all files inside the <strong>rtl</strong> directory into your project</li>
-<li>Instantiate the core into a Verilog/SystemVerilog module (an instantiation template is provided below)</li>
-<li>Connect Steel to a clock source, a reset signal and memory. There is an interface to fetch instructions and another to read/write data, so we recommend a dual-port memory</li>
+<li>Import the file <strong>steel_core.v</strong> to your project - this is the only file you need</li>
+<li>Instantiate the core into a Verilog module (the instantiation template is provided below)</li>
+<li>Connect Steel to a clock source, a reset signal and memory. There is an interface to fetch instructions and another to read/write data, so it is recommended a dual-port RAM memory</li>
 </ol>
-<p>There are also interfaces to request for interrupts and to update the time register. The signals of these interfaces must be hardwired to zero if unused.</p>
 <pre><code class="verilog">steel_top #(
 
-    // You must provide a 32-bit value. If omitted the boot address is set to 0x00000000
+    // The address of the first instruction the core will fetch
     // ---------------------------------------------------------------------------------
 
-    .BOOT_ADDRESS() 
+    .BOOT_ADDRESS(32'h00000000) 
 
     ) core (    
 
-    // Clock source and reset
+    // Clock and reset inputs
     // ---------------------------------------------------------------------------------
 
     .CLK(),         // System clock (input, required, 1-bit)
@@ -164,7 +160,7 @@
     // Instruction fetch interface
     // ---------------------------------------------------------------------------------
     .I_ADDR(),      // Instruction address (output, 32-bit)
-    .INSTR(),       // Instruction data (input, required, 32-bit)
+    .INSTR(),       // Instruction itself (input, required, 32-bit)
 
     // Data read/write interface
     // ---------------------------------------------------------------------------------
@@ -172,25 +168,25 @@
     .D_ADDR(),      // Data address (output, 32-bit)    
     .DATA_IN(),     // Data read from memory (input, required, 32-bit)
     .DATA_OUT(),    // Data to write into memory (output, 32-bit)
-    .WR_REQ(),      // Write enable (output, 1-bit)
-    .WR_MASK(),     // Write byte mask (output, 4-bit)
+    .WR_REQ(),      // Write enable/request (output, 1-bit)
+    .WR_MASK(),     // Byte-write enable mask (output, 4-bit)
 
     // Interrupt request interface (hardwire to zero if unused)
     // ---------------------------------------------------------------------------------
 
     .E_IRQ(),       // External interrupt request (optional, active high, 1-bit)
     .T_IRQ(),       // Timer interrupt request (optional, active high, 1-bit)
-    .S_IRQ()        // Software interrupt request (optional, active high, 1-bit)
+    .S_IRQ(),       // Software interrupt request (optional, active high, 1-bit)
 
     // Time register update interface (hardwire to zero if unused)
     // ---------------------------------------------------------------------------------
 
-    .REAL_TIME(),   // Value read from a real-time counter (optional, 64-bit)
+    .REAL_TIME()   // Value read from a real-time counter (optional, 64-bit)
 
 );
 </code></pre>
 
-<p>Read the section <a href="../steelio/">I/O signals</a> for more information about the signals above.</p>
+<p>Read the section <a href="../steelio/">I/O signals</a> for more information about Steel IO signals.</p>
               
             </div>
           </div>

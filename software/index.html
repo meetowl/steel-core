@@ -77,9 +77,6 @@
     <a class="current" href="./">Compiling software for Steel</a>
     <ul class="subnav">
             
-    <li class="toctree-l2"><a href="#compiling-software-for-steel">Compiling software for Steel</a></li>
-    
-
     </ul>
 	    </li>
           
@@ -138,8 +135,7 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="compiling-software-for-steel">Compiling software for Steel</h1>
-<p>The <a href="https://github.com/riscv/riscv-gnu-toolchain">RISC-V GNU Toolchain</a> provides the Newlib cross-compiler, which can be used to compile software for Steel. To configure the compiler for Steel and install it follow these steps:</p>
+                <p>The <a href="https://github.com/riscv/riscv-gnu-toolchain">RISC-V GNU Toolchain</a> provides the Newlib cross-compiler, which can be used to compile software for Steel. To configure the compiler for Steel and install it follow these steps:</p>
 <p><strong>1 - Clone the toolchain repo and all its submodules:</strong></p>
 <pre><code>$ git clone --recursive https://github.com/riscv/riscv-gnu-toolchain
 </code></pre>
@@ -174,27 +170,27 @@ $ ./configure --prefix=/opt/riscv --with-arch=rv32i --with-abi=ilp32
 
 <p>A program can be compiled to run on Steel with the following command (assuming you have installed the toolchain in the path <code>/opt/riscv</code>):</p>
 <pre><code>$ cd /opt/riscv/bin
-$ riscv32-unknown-elf-gcc --with-arch=rv32i --with-abi=ilp32 myprogram.c -o myprogram
+$ riscv32-unknown-elf-gcc -march=rv32i -mabi=ilp32 myprogram.c -o myprogram
 </code></pre>
 
-<p>The compiler will output an ELF file named <strong>myprogram</strong>. The flags <code>--with-arch=rv32i</code> and <code>--with-abi=ilp32</code> are optional if you have configured the compiler following the instructions in the section above.</p>
+<p>The compiler will output an ELF file named <strong>myprogram</strong>. The flags <code>-march=rv32i</code> and <code>-mabi=ilp32</code> are optional if you have configured the compiler following the instructions in the section above.</p>
 <p>To relocate the code to start at a specific address you can use the flag <code>-Ttext</code>. For example:</p>
 <pre><code>$ cd /opt/riscv/bin
-$ riscv32-unknown-elf-gcc --with-arch=rv32i --with-abi=ilp32 -Ttext 0x00000000 myprogram.c -o myprogram
+$ riscv32-unknown-elf-gcc -march=rv32i -mabi=ilp32 -Ttext 0x00000000 myprogram.c -o myprogram
 </code></pre>
 
 <blockquote>
-<p><strong>Tip:</strong> If you are using an FPGA and your system's RAM is an array of memory, you may need to transform your program (which is an ELF file) into an .hex file. By doing this, you can use the .hex file with Verilog's <strong>$readmemh</strong> function to fill the memory array. To generate an .hex file from your compiled program, execute the following commands:</p>
+<p><strong>Tip:</strong> To load a RAM memory array in an FPGA you need to transform the compiled program (which is an ELF file) into an .hex file, so that you can use the Verilog <strong>$readmemh</strong> system task to fill the memory array. You can generate the .hex file from your compiled program executing the following commands:</p>
 </blockquote>
 <pre><code>$ cd /opt/riscv/bin
 $ riscv32-unknown-elf-objcopy -O binary myprogram myprogram.bin
-$ od -t x4 -v -An -w1 myprogram.bin &gt; myprogram.dump
+$ od -t x4 -v -An -w4 myprogram.bin &gt; myprogram.dump
 $ cut -c2- myprogram.dump &gt; myprogram.hex
 $ rm myprogram.bin myprogram.dump
 </code></pre>
 
 <blockquote>
-<p>The <strong>util</strong> directory has a script called <strong>elf2hex</strong> that transforms an ELF into an .hex file. See the contents of the file <strong>soc/ram.v</strong> to learn how to build a RAM memory using Verilog arrays.</p>
+<p>The <strong>software</strong> directory has a script called <strong>elf2hex</strong> that transforms an ELF into an .hex file. Check the contents of the file <strong>soc/ram.v</strong> to learn how to build and load a RAM memory using Verilog arrays.</p>
 </blockquote>
               
             </div>

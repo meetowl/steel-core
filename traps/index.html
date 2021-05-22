@@ -87,17 +87,13 @@
     <a class="current" href="./">Exceptions and interrupts</a>
     <ul class="subnav">
             
-    <li class="toctree-l2"><a href="#exceptions-and-interrupts">Exceptions and interrupts</a></li>
+    <li class="toctree-l2"><a href="#supported-exceptions-and-interrupts">Supported exceptions and interrupts</a></li>
     
-        <ul>
-        
-            <li><a class="toctree-l3" href="#supported-exceptions-and-interrupts">Supported exceptions and interrupts</a></li>
-        
-            <li><a class="toctree-l3" href="#trap-handling-in-steel">Trap handling in Steel</a></li>
-        
-            <li><a class="toctree-l3" href="#nested-interrupts-capability">Nested interrupts capability</a></li>
-        
-        </ul>
+
+    <li class="toctree-l2"><a href="#trap-handling-in-steel">Trap handling in Steel</a></li>
+    
+
+    <li class="toctree-l2"><a href="#nested-interrupts-capability">Nested interrupts capability</a></li>
     
 
     </ul>
@@ -148,8 +144,7 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="exceptions-and-interrupts">Exceptions and interrupts</h1>
-<h2 id="supported-exceptions-and-interrupts">Supported exceptions and interrupts</h2>
+                <h2 id="supported-exceptions-and-interrupts">Supported exceptions and interrupts</h2>
 <p>Steel supports the exceptions and interrupts shown in the table below. They are listed in descending priority order (the highest priority is at the top of the table). If two or more exceptions/interrupts occur at the same time, the one with the highest priority is taken.</p>
 <p>Exceptions always cause a trap to be taken. An interrupt will cause a trap only if enabled. Each type of interrupt has an interrupt-enable bit in the <strong>mie</strong> register. Interrupts are globally enable/disabled by setting the MIE bit of <strong>mstatus</strong> register.</p>
 <table>

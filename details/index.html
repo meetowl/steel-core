@@ -97,13 +97,30 @@
     <a class="current" href="./">Implementation details</a>
     <ul class="subnav">
             
-    <li class="toctree-l2"><a href="#implementation-details">Implementation details</a></li>
+    <li class="toctree-l2"><a href="#implemented-csrs">Implemented CSRs</a></li>
+    
+
+    <li class="toctree-l2"><a href="#modules">Modules</a></li>
     
         <ul>
         
-            <li><a class="toctree-l3" href="#implemented-csrs">Implemented CSRs</a></li>
+            <li><a class="toctree-l3" href="#decoder">Decoder</a></li>
         
-            <li><a class="toctree-l3" href="#modules">Modules</a></li>
+            <li><a class="toctree-l3" href="#alu">ALU</a></li>
+        
+            <li><a class="toctree-l3" href="#integer-register-file">Integer Register File</a></li>
+        
+            <li><a class="toctree-l3" href="#branch-unit">Branch Unit</a></li>
+        
+            <li><a class="toctree-l3" href="#load-unit">Load Unit</a></li>
+        
+            <li><a class="toctree-l3" href="#store-unit">Store Unit</a></li>
+        
+            <li><a class="toctree-l3" href="#immediate-generator">Immediate Generator</a></li>
+        
+            <li><a class="toctree-l3" href="#csr-register-file">CSR Register File</a></li>
+        
+            <li><a class="toctree-l3" href="#machine-control">Machine Control</a></li>
         
         </ul>
     
@@ -146,8 +163,7 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="implementation-details">Implementation details</h1>
-<p>This section contains information on implementation details. It is intended for those who want to know more about how Steel works.</p>
+                <p>This section contains information on implementation details. It is intended for those who want to know more about how Steel works.</p>
 <h2 id="implemented-csrs">Implemented CSRs</h2>
 <p>The control and status registers implemented in Steel are shown in table 1, below. Other M-mode registers not shown in the table return the hardwired value defined by the RISC-V specifications when read.</p>
 <p align=left>

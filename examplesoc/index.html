@@ -82,9 +82,6 @@
     <a class="current" href="./">Example system</a>
     <ul class="subnav">
             
-    <li class="toctree-l2"><a href="#example-system">Example system</a></li>
-    
-
     </ul>
 	    </li>
           
@@ -138,8 +135,8 @@
           <div role="main">
             <div class="section">
               
-                <h2 id="example-system">Example system</h2>
-<p>The figure below shows an example system built with Steel, composed of an 8KB RAM memory array (<strong>ram.v</strong>), a memory mapped UART transmitter (<strong>uart_tx.v</strong>, 9600 baud rate, 1 stop bit, no parity and no control), a bus arbiter (<strong>bus_arbiter.v</strong>) and, of course, the Steel Core. The timer and interrupt request signals are hardwired to zero because neither timers nor interrupts are needed in this system.</p>
+                <p>The figure below shows the architecture of an example system that uses Steel, built with the free edition of Vivado (<a href="https://www.xilinx.com/products/design-tools/vivado.html">link</a>) for an Artix-7 FPGA (Digilent Arty-A7 35T board, <a href="https://store.digilentinc.com/arty-a7-artix-7-fpga-development-board/">link</a>). This project files are stored at <strong>soc/vivado</strong> and, of course, you need Vivado installed on your machine and an Arty A7-35T board to run this project.</p>
+<p>The system is formed by Steel + RAM + UART interface. The UART interface was designed to have 9600 baud rate, 1 stop bit, no parity and no control.</p>
 <p align="center">
 <img src="../images/steel-soc.png" width="70%"></img>
 </br>
@@ -147,17 +144,17 @@
 <strong>Example system built with Steel</strong>
 </p>
 
-<p>Note that the RAM memory and the UART transmitter share the interface to read/write data. The bus arbiter is used to multiplex this interface signals according to the address the core wants to access. In this example, the address 0x00010000 is used to access the UART transmitter. RAM addresses start at 0x00000000 and end at 0x00001fff. All other addresses are invalid.</p>
-<blockquote>
-<p><strong>Important:</strong> The system was designed to work with a 100MHz clock source.</p>
-</blockquote>
-<p>The implementation files of this system are inside the <strong>soc</strong> directory. The <strong>vivado</strong> directory has the project and implementation of this system for an Artix-7 FPGA (Digilent Nexys-4 board). The <strong>util</strong> directory has an example program (<strong>hello.c</strong>) for this system. The program sends the string "Hello World, Steel!" through the UART transmitter.</p>
-<p>If you have the Nexys-4 board and Vivado you can run this program following these instructions:</p>
+<p>Note that the RAM and the UART share the processor interface to read/write data. A bus arbiter is used to multiplex this interface signals according to the address the core wants to access. In this example, the address 0x00010000 is used to access the UART transmitter. The address 0x00020000 is used to access the UART receiver. RAM addresses start at 0x00000000 and end at 0x00001fff. All other addresses are invalid.</p>
+<p>A program compiled to run with this project is stored at the <strong>software</strong> directory. The program sends the string "Hello World, Steel!" through the UART transmitter.</p>
+<p>If you have an Arty A7-35T board and Vivado you can run the project following these instructions:</p>
 <ol>
-<li>Open a terminal simulator (e.g. PuTTY)</li>
-<li>Configure a serial connection to 9600 baud rate, 8 data bits, 1 stop bit, no parity and no control</li>
-<li>Open the project in Vivado</li>
-<li>Generate the bitstream and program the board</li>
+<li>Run Vivado and open the project (the file named <strong>example_soc.xpr</strong> at <strong>soc/vivado</strong> folder)</li>
+<li>Connect the board to your computer using a USB cable</li>
+<li>Find the name that your system gave to the board USB-UART interface. In Windows it should be something like COMX, and in Linux systems something like /dev/ttyUSBX (X is a number given by the OS)</li>
+<li>Download a program to emulate a serial terminal, like PuTTY (available for Windows and Linux systems)</li>
+<li>Configure a serial connection for the USB-UART interface to 9600 baud rate, 8 data bits, 1 stop bit, no parity and no control</li>
+<li>Open the serial terminal after configuration</li>
+<li>Generate the bitstream and program the board in Vivado</li>
 </ol>
 <p>After that you should see this message on the terminal:</p>
 <p><img alt="Hello World, Steel!" src="../images/steel-hello.png" /></p>

@@ -258,7 +258,7 @@
 </table>
 <h2 id="modules">Modules</h2>
 <h3 id="decoder">Decoder</h3>
-<p>The Decoder (<strong>decoder.v</strong>) decodes the instruction and generates the signals that control the memory, the Load Unit, the Store Unit, the ALU, the two register files (Integer and CSR), the Immediate Generator and the Writeback Multiplexer. The description of its input and output signals are shown in table 2, below.</p>
+<p>The decoder module decodes the instruction and generates the signals that control the memory, the Load Unit, the Store Unit, the ALU, the two register files (Integer and CSR), the Immediate Generator and the Writeback Multiplexer. The description of its input and output signals are shown in table 2, below.</p>
 <p align=left>
 <strong>Table 2.</strong> Decoder input/output signals
 </p>
@@ -390,7 +390,7 @@
 </tbody>
 </table>
 <h3 id="alu">ALU</h3>
-<p>The ALU (<strong>alu.v</strong>) applies ten distinct logical and arithmetic operations in parallel to two 32-bit operands, outputting the result selected by <strong>OPCODE</strong>. The ALU input/output signals and the opcodes are shown in tables 3 and 4, below.</p>
+<p>The ALU module applies ten distinct logical and arithmetic operations in parallel to two 32-bit operands, outputting the result selected by <strong>OPCODE</strong>. The ALU input/output signals and the opcodes are shown in tables 3 and 4, below.</p>
 <p>The opcode values were assigned to facilitate instruction decoding. The most significant bit of <strong>OPCODE</strong> matches with the second most significant bit in the instruction <strong>funct7</strong> field. The remaining three bits match with the instruction <strong>funct3</strong> field.</p>
 <p align=left>
 <strong>Table 3.</strong> ALU input/output signals
@@ -498,7 +498,7 @@
 </tbody>
 </table>
 <h3 id="integer-register-file">Integer Register File</h3>
-<p>The Integer Register File (<strong>integer_file.v</strong>) has 32 general-purpose registers and supports read and write operations. Reads are requested by pipeline stage 2 and provide data from one or two registers. Writes are requested by stage 3 and put the data coming from the Writeback Multiplexer into the selected register. If stage 3 requests to write to a register being read by stage 2, the data to be written is immediately forwarded to stage 2. Each operation is driven by a distinct set of signals, shown in the tables 5 and 6, below.</p>
+<p>The Integer Register File has 32 general-purpose registers and supports read and write operations. Reads are requested by pipeline stage 2 and provide data from one or two registers. Writes are requested by stage 3 and put the data coming from the Writeback Multiplexer into the selected register. If stage 3 requests to write to a register being read by stage 2, the data to be written is immediately forwarded to stage 2. Each operation is driven by a distinct set of signals, shown in the tables 5 and 6, below.</p>
 <p align=left>
 <strong>Table 5.</strong> Integer Register File signals for read
 </p>
@@ -574,7 +574,7 @@
 </tbody>
 </table>
 <h3 id="branch-unit">Branch Unit</h3>
-<p>The Branch Unit (<strong>branch_unit.v</strong>) decides if a branch instruction must be taken or not. It receives two operands from the Integer Register File and, based on the value of <em>opcode</em> and <em>funct3</em> instruction fields, decides the branch. Jump instructions are interpreted as branches that must always be taken. Internally, the unit realizes just two comparisions, deriving other four from them. Table 7 (below) shows the module input and output signals.</p>
+<p>The Branch Unit decides if a branch instruction must be taken or not. It receives two operands from the Integer Register File and, based on the value of <em>opcode</em> and <em>funct3</em> instruction fields, decides the branch. Jump instructions are interpreted as branches that must always be taken. Internally, the unit realizes just two comparisions, deriving other four from them. Table 7 (below) shows the module input and output signals.</p>
 <p align=left>
 <strong>Table 7.</strong> Branch Unit input/output signals
 </p>
@@ -622,7 +622,7 @@
 </tbody>
 </table>
 <h3 id="load-unit">Load Unit</h3>
-<p>The Load Unit (<strong>load_unit.v</strong>) reads the <strong>DATA_IN</strong> input signal and forms a 32-bit value based on the load instruction type (encoded in the <em>funct3</em> field). The formed value (placed on <strong>OUTPUT</strong>) can then be written in the Integer Register File. The module input and output signals are shown in table 8. The value of <strong>OUTPUT</strong> is formed as shown in table 9.</p>
+<p>The Load Unit reads the <strong>DATA_IN</strong> input signal and forms a 32-bit value based on the load instruction type (encoded in the <em>funct3</em> field). The formed value (placed on <strong>OUTPUT</strong>) can then be written in the Integer Register File. The module input and output signals are shown in table 8. The value of <strong>OUTPUT</strong> is formed as shown in table 9.</p>
 <p align=left>
 <strong>Table 8.</strong> Load Unit input/output signals
 </p>
@@ -712,7 +712,7 @@
 </tbody>
 </table>
 <h3 id="store-unit">Store Unit</h3>
-<p>The Store Unit (<strong>store_unit.v</strong>) drives the signals that interface with memory. It places the data to be written (which can be a byte, halfword or word) in the right position in <strong>DATA_OUT</strong> and sets the value of <strong>WR_MASK</strong> in an appropriate way. Table 10 (below) shows the unit input and output signals.</p>
+<p>The Store Unit drives the signals that interface with memory. It places the data to be written (which can be a byte, halfword or word) in the right position in <strong>DATA_OUT</strong> and sets the value of <strong>WR_MASK</strong> in an appropriate way. Table 10 (below) shows the unit input and output signals.</p>
 <p align=left>
 <strong>Table 10.</strong> Store Unit input/output signals
 </p>
@@ -749,7 +749,7 @@
 <td align="left"><strong>MEM_WR_REQ</strong></td>
 <td align="left">1 bit</td>
 <td align="left">Input</td>
-<td align="left">Control signal generated by the Control Unit. When set high indicates a request to write to memory.</td>
+<td align="left">Control signal generated by the decoder module. When set high indicates a request to write to memory.</td>
 </tr>
 <tr>
 <td align="left"><strong>DATA_OUT</strong></td>
@@ -778,7 +778,7 @@
 </tbody>
 </table>
 <h3 id="immediate-generator">Immediate Generator</h3>
-<p>The Immediate Generator (<strong>imm_generator.v</strong>) rearranges the immediate bits contained in the instruction and, if necessary, sign-extends it to form a 32-bit value. The unit is controlled by the <strong>IMM_TYPE</strong> signal, generated by the Control Unit. Table 11 shows the unit input and output signals.</p>
+<p>The Immediate Generator rearranges the immediate bits contained in the instruction and, if necessary, sign-extends it to form a 32-bit value. The unit is controlled by the <strong>IMM_TYPE</strong> signal, generated by the decoder module. Table 11 shows the unit input and output signals.</p>
 <p align=left>
 <strong>Table 11.</strong> Immediate Generator input/output signals
 </p>
@@ -803,7 +803,7 @@
 <td align="left"><strong>IMM_TYPE</strong></td>
 <td align="left">2 bits</td>
 <td align="left">Input</td>
-<td align="left">Control signal generated by the Control Unit that indicates the type of immediate that must be generated.</td>
+<td align="left">Control signal generated by the decoder module that indicates the type of immediate that must be generated.</td>
 </tr>
 <tr>
 <td align="left"><strong>IMM</strong></td>
@@ -814,7 +814,7 @@
 </tbody>
 </table>
 <h3 id="csr-register-file">CSR Register File</h3>
-<p>The CSR Register File (<strong>csr_file.v</strong>) has the control and status registers required for the implementation of M-mode. Read/write, set and clear operations can be applied to the registers. Table 12 shows the unit input and output signals, except those used for communication with the Machine Control module, which are shown in table 13.</p>
+<p>The CSR Register File has the control and status registers required for the implementation of M-mode. Read/write, set and clear operations can be applied to the registers. Table 12 shows the unit input and output signals, except those used for communication with the Machine Control module, which are shown in table 13.</p>
 <p align=left>
 <strong>Table 12.</strong> CSR Register File input/output signals
 </p>
@@ -845,7 +845,7 @@
 <td align="left"><strong>CSR_OP</strong></td>
 <td align="left">3 bits</td>
 <td align="left">Input</td>
-<td align="left">Control signal generated by the Control Unit. Selects the operation to be performed (read/write, set, clear or no operation).</td>
+<td align="left">Control signal generated by the decoder module. Selects the operation to be performed (read/write, set, clear or no operation).</td>
 </tr>
 <tr>
 <td align="left"><strong>CSR_UIMM</strong></td>
@@ -1010,7 +1010,7 @@
 </tbody>
 </table>
 <h3 id="machine-control">Machine Control</h3>
-<p>The Machine Control module (<strong>machine_control.v</strong>) implements the M-mode, controlling the the program counter generation and updating several CSRs. It has a special communication interface with the CSR Register File, already shown in table 13 (above). Its input and output signals are shown in table 14 (below).</p>
+<p>The Machine Control module implements the M-mode, controlling the the program counter generation and updating several CSRs. It has a special communication interface with the CSR Register File, already shown in table 13 (above). Its input and output signals are shown in table 14 (below).</p>
 <p>Internally, the module implements the finite state machine shown in figure 1 (below).</p>
 <p align=left>
 <strong>Table 14.</strong> Machine Control input/output signals
@@ -1125,7 +1125,7 @@
 </tbody>
 </table>
 <p align="center">
-<img src="../images/steel-fsm.png" width="80%"></img>
+<img src="../images/steel-fsm.png" width="50%"></img>
 </br>
 </br>
 <strong>Fig. 1:</strong> Machine Control finite state machine

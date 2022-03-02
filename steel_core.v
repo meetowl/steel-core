@@ -1267,11 +1267,15 @@ module integer_file(
                     input wire         WR_EN,
                     input wire [31:0]  RD
 
+/* -----\/----- EXCLUDED -----\/-----
+                    // Testing with error
+                    input wire         INSERT_ERROR
+ -----/\----- EXCLUDED -----/\----- */
                     );
    
    wire [31:0]                         rs1_wire;
    wire [31:0]                         rs2_wire;  
-   wire [31:1]                         enable;
+//   wire [31:1]                         enable;
    wire                                fwd_op1_enable;
    wire                                fwd_op2_enable;
    wire                                op1_zero;
@@ -1281,17 +1285,70 @@ module integer_file(
    reg [31:0]                          rs2_reg;
    wire                                rs1_addr_is_x0;
    wire                                rs2_addr_is_x0;
-   reg [31:0]                          Q [31:1];
+
+   // Redundant registers
+   reg [31:0]                          Q0 [31:1];
+   reg [31:0]                          Q1 [31:1];
+   reg [31:0]                          Q2 [31:1];
+
    
-   integer                             i;
-   
+   integer                             i, q_i;
+
+   // FT Mechanism
+   reg [31:1]                          q0_fault, q1_fault, q2_fault;              
+   reg                                 q_f, q0_f, q1_f, q2_f;                          
+
+   // Initialisation
    initial
      begin
-        for(i = 1; i < 32; i = i+1) Q[i] <= 32'b0;
+        for(i = 1; i < 32; i = i+1) Q0[i] = 32'b0;
+        for(i = 1; i < 32; i = i+1) Q1[i] = 32'b0;
+        for(i = 1; i < 32; i = i+1) Q2[i] = 32'b0;
      end     
-   
+
+/* -----\/----- EXCLUDED -----\/-----
+   // Error injection
    always @(posedge CLK)
-     if(WR_EN) Q[RD_ADDR] <= RD;
+     if (INSERT_ERROR) begin  
+        Q2[2] <= 32'hffffffff;
+     end
+ -----/\----- EXCLUDED -----/\----- */
+
+   // Error identification
+   always @*                                                     
+     for (q_i = 1; q_i <= 31; q_i += 1) begin            
+        q0_fault[q_i] = Q1[q_i] == Q2[q_i] && Q1[q_i] != Q0[q_i];
+        q1_fault[q_i] = Q0[q_i] == Q2[q_i] && Q0[q_i] != Q1[q_i];
+        q2_fault[q_i] = Q0[q_i] == Q1[q_i] && Q0[q_i] != Q2[q_i];
+     end                                                         
+
+   // Error detection
+   assign q0_f = |q0_fault;
+   assign q1_f = |q1_fault;
+   assign q2_f = |q2_fault;
+   assign q_f = q0_f | q1_f | q2_f;
+
+   always @(posedge CLK)
+     if (WR_EN) begin
+        Q0[RD_ADDR] <= RD;
+        Q1[RD_ADDR] <= RD;
+        Q2[RD_ADDR] <= RD;
+     end
+     else
+       begin
+          if (q_f) 
+            for (i = 0; i <= 31; i++) begin
+               if (q0_fault[i])
+                 Q0[i] <= Q1[i];
+               if (q1_fault[i])
+                 Q1[i] <= Q0[i];
+               if (q2_fault[i])
+                 Q2[i] <= Q0[i];
+            end
+       end
+
+   
+   
    
    assign rs1_addr_is_x0 = RS_1_ADDR == 5'b00000;
    assign rs2_addr_is_x0 = RS_2_ADDR == 5'b00000;
@@ -1299,8 +1356,8 @@ module integer_file(
    assign fwd_op2_enable = (RS_2_ADDR == RD_ADDR && WR_EN == 1'b1) ? 1'b1 : 1'b0;
    assign op1_zero = rs1_addr_is_x0 == 1'b1 ? 1'b1 : 1'b0;
    assign op2_zero = rs2_addr_is_x0 == 1'b1 ? 1'b1 : 1'b0;
-   assign rs1_wire = fwd_op1_enable == 1'b1 ? RD : Q[RS_1_ADDR];
-   assign rs2_wire = fwd_op2_enable == 1'b1 ? RD : Q[RS_2_ADDR];
+   assign rs1_wire = fwd_op1_enable == 1'b1 ? RD : Q0[RS_1_ADDR];
+   assign rs2_wire = fwd_op2_enable == 1'b1 ? RD : Q0[RS_2_ADDR];
    assign RS_1 = op1_zero == 1'b1 ? 32'h00000000 : rs1_wire;
    assign RS_2 = op2_zero == 1'b1 ? 32'h00000000 : rs2_wire;
    

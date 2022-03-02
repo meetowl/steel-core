@@ -1296,7 +1296,7 @@ module integer_file(
 
    // FT Mechanism
    reg [31:1]                          q0_fault, q1_fault, q2_fault;              
-   reg                                 q_f, q0_f, q1_f, q2_f;                          
+   wire                                q_f, q0_f, q1_f, q2_f;                          
 
    // Initialisation
    initial

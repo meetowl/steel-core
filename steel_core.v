@@ -243,6 +243,10 @@
 
 // Machine Counter Setup
 `define MCOUNTINHIBIT   12'h320
+
+// Error testing definition
+//`define _TEST_CORRECTION_INTEGER_FILE
+
 /* verilator lint_off DECLFILENAME */
 /* verilator lint_off UNUSED */
 /* verilator lint_off UNOPTFLAT */
@@ -1266,11 +1270,6 @@ module integer_file(
                     input wire [4:0]   RD_ADDR,
                     input wire         WR_EN,
                     input wire [31:0]  RD
-
-/* -----\/----- EXCLUDED -----\/-----
-                    // Testing with error
-                    input wire         INSERT_ERROR
- -----/\----- EXCLUDED -----/\----- */
                     );
    
    wire [31:0]                         rs1_wire;
@@ -1306,13 +1305,12 @@ module integer_file(
         for(i = 1; i < 32; i = i+1) Q2[i] = 32'b0;
      end     
 
-/* -----\/----- EXCLUDED -----\/-----
-   // Error injection
+`ifdef _TEST_CORRECTION_INTEGER_FILE
+   // Error injection test
    always @(posedge CLK)
-     if (INSERT_ERROR) begin  
-        Q2[2] <= 32'hffffffff;
-     end
- -----/\----- EXCLUDED -----/\----- */
+        Q0[2] <= 32'hffffffff;
+`endif
+
 
    // Error identification
    always @*                                                     

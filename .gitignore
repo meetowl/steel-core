@@ -1,3 +1,4 @@
 /vivado/steel_core.*/
 /vivado/vivado*
 /riscv-compliance/*.signature.output
+/tests/bin/

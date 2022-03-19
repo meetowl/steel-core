@@ -43,6 +43,8 @@ VERILATOR_FLAGS += -Wall
 VERILATOR_FLAGS += --trace
 # Check SystemVerilog assertions
 VERILATOR_FLAGS += --assert
+# Include the parent directory
+VERILATOR_FLAGS += -I/home/meetowl/uni/project/cores/steel-core-mine/
 # Generate coverage analysis
 #VERILATOR_FLAGS += --coverage
 # Run Verilator in debug mode

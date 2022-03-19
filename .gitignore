@@ -2,3 +2,5 @@
 /vivado/vivado*
 /riscv-compliance/*.signature.output
 /tests/bin/
+*dump.vcd
+*obj_dir

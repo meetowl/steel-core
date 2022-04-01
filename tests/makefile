@@ -3,7 +3,9 @@ BIN_NAME = test-sim
 BIN_PATH = $(BIN_DIR)/$(BIN_NAME)
 
 IVERILOG = iverilog
-IVERILOG_FLAGS = -l../steel_core.v
+IVERILOG_FLAGS += -l../steel_core.v
+IVERILOG_FLAGS += -D_TEST_CORRECTION_INTEGER_FILE
+
 
 $(BIN_DIR):
 	mkdir $(BIN_DIR)

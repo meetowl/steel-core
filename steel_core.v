@@ -1295,7 +1295,8 @@ module integer_file(
 
    // FT Mechanism
    reg [31:1]                          q0_fault, q1_fault, q2_fault;              
-   wire                                q_f, q0_f, q1_f, q2_f;                          
+   wire                                q_f, q0_f, q1_f, q2_f;
+   wire [31:0]                         rs1_pipe, rs2_pipe;
 
    // Initialisation
    initial
@@ -1327,7 +1328,7 @@ module integer_file(
    assign q_f = q0_f | q1_f | q2_f;
 
    always @(posedge CLK)
-     if (WR_EN) begin
+      if (WR_EN) begin
         Q0[RD_ADDR] <= RD;
         Q1[RD_ADDR] <= RD;
         Q2[RD_ADDR] <= RD;
@@ -1345,8 +1346,10 @@ module integer_file(
             end
        end
 
-   
-   
+
+   assign rs1_pipe = q0_f ? Q1[RS_1_ADDR] : Q0[RS_1_ADDR];
+   assign rs2_pipe = q0_f ? Q1[RS_2_ADDR] : Q0[RS_2_ADDR];
+                        
    
    assign rs1_addr_is_x0 = RS_1_ADDR == 5'b00000;
    assign rs2_addr_is_x0 = RS_2_ADDR == 5'b00000;
@@ -1354,8 +1357,8 @@ module integer_file(
    assign fwd_op2_enable = (RS_2_ADDR == RD_ADDR && WR_EN == 1'b1) ? 1'b1 : 1'b0;
    assign op1_zero = rs1_addr_is_x0 == 1'b1 ? 1'b1 : 1'b0;
    assign op2_zero = rs2_addr_is_x0 == 1'b1 ? 1'b1 : 1'b0;
-   assign rs1_wire = fwd_op1_enable == 1'b1 ? RD : Q0[RS_1_ADDR];
-   assign rs2_wire = fwd_op2_enable == 1'b1 ? RD : Q0[RS_2_ADDR];
+   assign rs1_wire = fwd_op1_enable == 1'b1 ? RD : rs1_pipe;
+   assign rs2_wire = fwd_op2_enable == 1'b1 ? RD : rs2_pipe;
    assign RS_1 = op1_zero == 1'b1 ? 32'h00000000 : rs1_wire;
    assign RS_2 = op2_zero == 1'b1 ? 32'h00000000 : rs2_wire;
    

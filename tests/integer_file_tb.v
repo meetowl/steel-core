@@ -40,8 +40,6 @@
 
 `timescale 1ns / 1ps
 
-`define _TEST_CORRECTION_INTEGER_FILE
-
 module integer_file_tb();
 
    reg CLK;
@@ -79,6 +77,9 @@ module integer_file_tb();
    
    initial
      begin
+
+        $dumpfile("wave.vcd");      // create a VCD waveform dump called "wave.vcd"
+        $dumpvars(0, integer_file_tb); 
         
         $display("Testing Integer Register File...");
         
@@ -158,8 +159,7 @@ module integer_file_tb();
         $display("Write operation seems to work.");
         
         $display("Integer Register File successfully tested.");
-        $finish
-        
+        $finish;
      end
-
+           
 endmodule

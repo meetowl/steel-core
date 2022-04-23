@@ -1333,18 +1333,17 @@ module integer_file(
         Q1[RD_ADDR] <= RD;
         Q2[RD_ADDR] <= RD;
      end
-     else
-       begin
-          if (q_f) 
-            for (i = 0; i <= 31; i++) begin
-               if (q0_fault[i])
-                 Q0[i] <= Q1[i];
-               if (q1_fault[i])
-                 Q1[i] <= Q0[i];
-               if (q2_fault[i])
-                 Q2[i] <= Q0[i];
-            end
-       end
+
+   always @(posedge CLK)
+     for (i = 0; i <= 31; i++) begin
+        if (q0_fault[i])
+          Q0[i] <= Q1[i];
+        if (q1_fault[i])
+          Q1[i] <= Q0[i];
+        if (q2_fault[i])
+          Q2[i] <= Q0[i];
+     end
+            
 
 
    assign rs1_pipe = q0_f ? Q1[RS_1_ADDR] : Q0[RS_1_ADDR];

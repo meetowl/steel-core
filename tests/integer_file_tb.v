@@ -51,8 +51,8 @@ module integer_file_tb();
    
    reg [4:0]   RD_ADDR;
    reg         WR_EN;
-   reg [31:0]  RD;    
-   
+   reg [31:0]  RD;
+
    integer_file dut(
       
                     .CLK(               CLK),
@@ -65,7 +65,6 @@ module integer_file_tb();
       
                     .WR_EN(             WR_EN),
                     .RD(                RD)
-      
                     );
    
    integer     i;
@@ -77,7 +76,6 @@ module integer_file_tb();
    
    initial
      begin
-
         $dumpfile("wave.vcd");      // create a VCD waveform dump called "wave.vcd"
         $dumpvars(0, integer_file_tb); 
         
@@ -99,7 +97,7 @@ module integer_file_tb();
              RS_1_ADDR = i[4:0];
              
              #20;
-             
+
              if(RS_1 != 32'h00000000)
                begin
                   $display("FAIL. Check the results.");
@@ -107,7 +105,7 @@ module integer_file_tb();
                end
              
           end
-        
+
         $display("Power up values OK.");        
         
         $display("Testing write operation...");
@@ -117,7 +115,7 @@ module integer_file_tb();
              
              RD_ADDR = i[4:0];
              WR_EN = 1'b1;
-             RD = $random;            
+             RD = i;            
              
              #20;
              
@@ -157,9 +155,29 @@ module integer_file_tb();
           end
         
         $display("Write operation seems to work.");
+
+        $display("Testing values post-write...");
+        
+        for(i = 0; i < 32; i=i+1)
+          begin
+             
+             RS_1_ADDR = i[4:0];
+             
+             #20;
+
+             if(RS_1 != i)
+               begin
+                  $display("FAIL. Check the results.");
+                  $finish;
+               end
+             
+          end
+
+        $display("Post-write values OK.");        
         
         $display("Integer Register File successfully tested.");
         $finish;
+        
      end
-           
+
 endmodule

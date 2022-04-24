@@ -53,6 +53,8 @@ module integer_file_tb();
    reg         WR_EN;
    reg [31:0]  RD;
 
+   reg [4:0]   ERROR_ADDR;
+   
    integer_file dut(
       
                     .CLK(               CLK),
@@ -64,7 +66,9 @@ module integer_file_tb();
                     .RS_2(              RS_2),
       
                     .WR_EN(             WR_EN),
-                    .RD(                RD)
+                    .RD(                RD),
+                    .ERROR_ADDR(ERROR_ADDR)
+                    
                     );
    
    integer     i;
@@ -94,8 +98,8 @@ module integer_file_tb();
         for(i = 0; i < 32; i=i+1)
           begin
              
-             RS_1_ADDR = i[4:0];
-             
+             RS_1_ADDR = i[4:0] ;
+             ERROR_ADDR = i;
              #20;
 
              if(RS_1 != 32'h00000000)
@@ -115,7 +119,8 @@ module integer_file_tb();
              
              RD_ADDR = i[4:0];
              WR_EN = 1'b1;
-             RD = i;            
+             RD = i;        
+             ERROR_ADDR = i;    
              
              #20;
              
@@ -162,6 +167,7 @@ module integer_file_tb();
           begin
              
              RS_1_ADDR = i[4:0];
+             ERROR_ADDR = i;
              
              #20;
 

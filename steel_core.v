@@ -1270,6 +1270,11 @@ module integer_file(
                     input wire [4:0]   RD_ADDR,
                     input wire         WR_EN,
                     input wire [31:0]  RD
+                                       
+`ifdef _TEST_CORRECTION_INTEGER_FILE
+                    ,
+                    input wire [4:0]   ERROR_ADDR
+`endif
                     );
    
    wire [31:0]                         rs1_wire;
@@ -1295,7 +1300,7 @@ module integer_file(
 
    // FT Mechanism
    reg [31:1]                          q0_fault, q1_fault, q2_fault;              
-   wire                                q_f, q0_f, q1_f, q2_f;
+   wire                                q0_f, q1_f, q2_f;
    wire [31:0]                         rs1_pipe, rs2_pipe;
 
    // Initialisation
@@ -1309,7 +1314,7 @@ module integer_file(
 `ifdef _TEST_CORRECTION_INTEGER_FILE
    // Error injection test
    always @(posedge CLK)
-        Q0[2] <= 32'hffffffff;
+        Q0[ERROR_ADDR] <= 32'hffffffff;
 `endif
 
 
@@ -1325,7 +1330,6 @@ module integer_file(
    assign q0_f = |q0_fault;
    assign q1_f = |q1_fault;
    assign q2_f = |q2_fault;
-   assign q_f = q0_f | q1_f | q2_f;
 
    always @(posedge CLK)
       if (WR_EN) begin

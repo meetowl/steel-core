@@ -1,4 +1,5 @@
-read_verilog -sv /home/meetowl/uni/project/cores/steel-core-mine/steel_core.v 
+# read_verilog -sv /home/meetowl/uni/project/cores/steel-core-mine/steel_core.v
+read_verilog -sv /home/meetowl/uni/project/cores/steel-core-original/steel_core.v 
 proc; opt
 memory; opt
 techmap; opt

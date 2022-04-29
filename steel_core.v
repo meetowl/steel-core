@@ -1338,15 +1338,15 @@ module integer_file(
         Q2[RD_ADDR] <= RD;
      end
 
-   always @(posedge CLK)
-     for (i = 0; i <= 31; i++) begin
-        if (q0_fault[i])
-          Q0[i] <= Q1[i];
-        if (q1_fault[i])
-          Q1[i] <= Q0[i];
-        if (q2_fault[i])
-          Q2[i] <= Q0[i];
-     end
+   // always @(posedge CLK)
+   //   for (i = 0; i <= 31; i++) begin
+   //      if (q0_fault[i])
+   //        Q0[i] <= Q1[i];
+   //      if (q1_fault[i])
+   //        Q1[i] <= Q0[i];
+   //      if (q2_fault[i])
+   //        Q2[i] <= Q0[i];
+   //   end
             
 
 

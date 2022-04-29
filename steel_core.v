@@ -1273,13 +1273,13 @@ module integer_file(
                                        
 `ifdef _TEST_CORRECTION_INTEGER_FILE
                     ,
+                    // Error insertion address for fault-tolerance testing
                     input wire [4:0]   ERROR_ADDR
 `endif
                     );
-   
+   // Integer File Wires
    wire [31:0]                         rs1_wire;
    wire [31:0]                         rs2_wire;  
-//   wire [31:1]                         enable;
    wire                                fwd_op1_enable;
    wire                                fwd_op2_enable;
    wire                                op1_zero;
@@ -1289,47 +1289,30 @@ module integer_file(
    reg [31:0]                          rs2_reg;
    wire                                rs1_addr_is_x0;
    wire                                rs2_addr_is_x0;
-
-   // Redundant registers
+   
+   integer                             i, j;
+   
+   // Fault-Tolerance wires
+   /// Redundant registers
    reg [31:0]                          Q0 [31:1];
    reg [31:0]                          Q1 [31:1];
    reg [31:0]                          Q2 [31:1];
-
    
-   integer                             i, q_i;
+   /// FT Mechanism
+   reg [31:1]                          q0_fault_at, q1_fault_at, q2_fault_at;              
+   wire                                q0_fault, q1_fault, q2_fault;
 
-   // FT Mechanism
-   reg [31:1]                          q0_fault, q1_fault, q2_fault;              
-   wire                                q0_f, q1_f, q2_f;
+   /// Wires determined by voter of TMR
    wire [31:0]                         rs1_pipe, rs2_pipe;
 
    // Initialisation
    initial
      begin
-        for(i = 1; i < 32; i = i+1) Q0[i] = 32'b0;
-        for(i = 1; i < 32; i = i+1) Q1[i] = 32'b0;
-        for(i = 1; i < 32; i = i+1) Q2[i] = 32'b0;
+        for(i = 1; i < 32; i += 1) Q0[i] = 32'b0;
+        for(i = 1; i < 32; i += 1) Q1[i] = 32'b0;
+        for(i = 1; i < 32; i += 1) Q2[i] = 32'b0;
      end     
 
-`ifdef _TEST_CORRECTION_INTEGER_FILE
-   // Error injection test
-   always @(posedge CLK)
-        Q0[ERROR_ADDR] <= 32'hffffffff;
-`endif
-
-
-   // Error identification
-   always @*                                                     
-     for (q_i = 1; q_i <= 31; q_i += 1) begin            
-        q0_fault[q_i] = Q1[q_i] == Q2[q_i] && Q1[q_i] != Q0[q_i];
-        q1_fault[q_i] = Q0[q_i] == Q2[q_i] && Q0[q_i] != Q1[q_i];
-        q2_fault[q_i] = Q0[q_i] == Q1[q_i] && Q0[q_i] != Q2[q_i];
-     end                                                         
-
-   // Error detection
-   assign q0_f = |q0_fault;
-   assign q1_f = |q1_fault;
-   assign q2_f = |q2_fault;
 
    always @(posedge CLK)
       if (WR_EN) begin
@@ -1337,22 +1320,6 @@ module integer_file(
         Q1[RD_ADDR] <= RD;
         Q2[RD_ADDR] <= RD;
      end
-
-   // always @(posedge CLK)
-   //   for (i = 0; i <= 31; i++) begin
-   //      if (q0_fault[i])
-   //        Q0[i] <= Q1[i];
-   //      if (q1_fault[i])
-   //        Q1[i] <= Q0[i];
-   //      if (q2_fault[i])
-   //        Q2[i] <= Q0[i];
-   //   end
-            
-
-
-   assign rs1_pipe = q0_f ? Q1[RS_1_ADDR] : Q0[RS_1_ADDR];
-   assign rs2_pipe = q0_f ? Q1[RS_2_ADDR] : Q0[RS_2_ADDR];
-                        
    
    assign rs1_addr_is_x0 = RS_1_ADDR == 5'b00000;
    assign rs2_addr_is_x0 = RS_2_ADDR == 5'b00000;
@@ -1364,6 +1331,31 @@ module integer_file(
    assign rs2_wire = fwd_op2_enable == 1'b1 ? RD : rs2_pipe;
    assign RS_1 = op1_zero == 1'b1 ? 32'h00000000 : rs1_wire;
    assign RS_2 = op2_zero == 1'b1 ? 32'h00000000 : rs2_wire;
+
+   // Fault-tolerance
+`ifdef _TEST_CORRECTION_INTEGER_FILE
+   // Error injection
+   always @(posedge CLK)
+        Q0[ERROR_ADDR] <= 32'hffffffff;
+`endif
+
+   // Error identification
+   always @*                                                     
+     for (j = 1; j <= 31; j += 1) begin            
+        q0_fault_at[j] = Q1[j] == Q2[j] && Q1[j] != Q0[j];
+        q1_fault_at[j] = Q0[j] == Q2[j] && Q0[j] != Q1[j];
+        q2_fault_at[j] = Q0[j] == Q1[j] && Q0[j] != Q2[j];
+     end                                                         
+
+   // Error detection
+   assign q0_fault = |q0_fault_at;
+   assign q1_fault = |q1_fault_at;
+   assign q2_fault = |q2_fault_at;
+
+   // Voting Mechanism
+   assign rs1_pipe = q0_fault ? Q1[RS_1_ADDR] : Q0[RS_1_ADDR];
+   assign rs2_pipe = q0_fault ? Q1[RS_2_ADDR] : Q0[RS_2_ADDR];
+                        
    
 endmodule
 

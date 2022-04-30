@@ -92,14 +92,24 @@ module integer_file_tb();
         RD_ADDR = 5'b00000;
         WR_EN = 1'b0;
         RD = 32'b0;
-        
+
+`ifndef IRF_SCRUB
+        // Inject a single error (since we're not scrubbing)
+        ERROR_ADDR = `ERROR_ADDR;
+        #20;
+        ERROR_ADDR = 0;
+`endif
         $display("Testing values on power up...");
         
-        for(i = 0; i < 32; i=i+1)
+        for(i = 1; i < 32; i=i+1)
           begin
              
              RS_1_ADDR = i[4:0] ;
+`ifdef IRF_SCRUB
+             // Keep injecting errors throughout
+             // Make sure two don't occurr at the same time (what scrubbing prevents)
              ERROR_ADDR = i;
+`endif
              #20;
 
              if(RS_1 != 32'h00000000)
@@ -114,7 +124,7 @@ module integer_file_tb();
         
         $display("Testing write operation...");
         
-        for(i = 0; i < 32; i=i+1)
+        for(i = 1; i < 32; i=i+1)
           begin        
              
              RD_ADDR = i[4:0];
@@ -160,10 +170,17 @@ module integer_file_tb();
           end
         
         $display("Write operation seems to work.");
+        
+`ifndef IRF_SCRUB
+        // Re-inject a single error 
+        ERROR_ADDR = `ERROR_ADDR;
+        #20;
+        ERROR_ADDR = 0;
+`endif
 
         $display("Testing values post-write...");
         
-        for(i = 0; i < 32; i=i+1)
+        for(i = 1; i < 32; i=i+1)
           begin
              
              RS_1_ADDR = i[4:0];
@@ -182,7 +199,7 @@ module integer_file_tb();
         $display("Post-write values OK.");        
         
         $display("Integer Register File successfully tested.");
-        $finish;
+        $finish(1);
         
      end
 

@@ -1268,7 +1268,7 @@ module integer_file(
                     input wire         WR_EN,
                     input wire [31:0]  RD
                                        
-`ifdef TEST_CORRECTION_INTEGER_FILE
+`ifdef IRF_TEST_FAULT
                     ,
                     // Error insertion address for fault-tolerance testing
                     input wire [4:0]   ERROR_ADDR
@@ -1330,10 +1330,19 @@ module integer_file(
    assign RS_2 = op2_zero == 1'b1 ? 32'h00000000 : rs2_wire;
 
    // Fault-tolerance
-`ifdef TEST_CORRECTION_INTEGER_FILE
+`ifdef IRF_TEST_FAULT 
    // Error injection
-   always @(posedge CLK)
-        Q0[ERROR_ADDR] <= 32'hffffffff;
+   always @(posedge CLK) begin
+ `ifdef IRF_TEST_FAULT_0
+      Q0[ERROR_ADDR] <= 32'hffffffff;
+ `elsif IRF_TEST_FAULT_1
+      Q1[ERROR_ADDR] <= 32'hffffffff;
+ `elsif IRF_TEST_FAULT_2 
+      Q2[ERROR_ADDR] <= 32'hffffffff;
+ `else
+      Q0[2] <= 32'hffffffff;
+ `endif
+   end
 `endif
 
    // Error identification

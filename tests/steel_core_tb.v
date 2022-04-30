@@ -55,50 +55,7 @@ module steel_core_tb();
    reg         T_IRQ;
    reg         S_IRQ;
    
-   reg [8*20:0] tests [0:39]; //= {
-/* -----\/----- EXCLUDED -----\/-----
-                   "rv32ui-p-addi.mem",
-                   "rv32ui-p-bgeu.mem",
-                   "rv32ui-p-lb.mem",
-                   "rv32ui-p-or.mem",
-                   "rv32ui-p-sltiu.mem",
-                   "rv32ui-p-sub.mem",
-                   "rv32ui-p-add.mem",
-                   "rv32ui-p-blt.mem",
-                   "rv32ui-p-lbu.mem",
-                   "rv32ui-p-sb.mem",
-                   "rv32ui-p-slt.mem",
-                   "rv32ui-p-sw.mem",
-                   "rv32ui-p-andi.mem",
-                   "rv32ui-p-bltu.mem",
-                   "rv32ui-p-lh.mem",
-                   "rv32ui-p-sh.mem",
-                   "rv32ui-p-sltu.mem",
-                   "rv32ui-p-xori.mem",
-                   "rv32ui-p-and.mem",
-                   "rv32ui-p-bne.mem",
-                   "rv32ui-p-lhu.mem",
-                   "rv32ui-p-simple.mem",
-                   "rv32ui-p-srai.mem",
-                   "rv32ui-p-xor.mem",
-                   "rv32ui-p-auipc.mem",
-                   "rv32ui-p-fence_i.mem",
-                   "rv32ui-p-lui.mem",
-                   "rv32ui-p-slli.mem",
-                   "rv32ui-p-sra.mem",
-                   "rv32ui-p-beq.mem",
-                   "rv32ui-p-jal.mem",
-                   "rv32ui-p-lw.mem",
-                   "rv32ui-p-sll.mem",
-                   "rv32ui-p-srli.mem",
-                   "rv32ui-p-bge.mem",
-                   "rv32ui-p-jalr.mem",
-                   "rv32ui-p-ori.mem",
-                   "rv32ui-p-slti.mem",
-                   "rv32ui-p-srl.mem"
-                   };
- 
-  -----/\----- EXCLUDED -----/\----- */
+   reg [8*20:0] tests [0:38];
 
    steel_core_top 
      #(.BOOT_ADDRESS(32'h00000000))
@@ -118,7 +75,7 @@ module steel_core_tb();
       .S_IRQ(S_IRQ)
       );
    
-   reg [0:16383] ram [31:0];
+   reg  [31:0] ram [0:16383];
    integer     i;
    integer     j;
    integer     k;    
@@ -160,15 +117,15 @@ module steel_core_tb();
         tests[27] =  "rv32ui-p-slli.mem";
         tests[28] =  "rv32ui-p-sra.mem";
         tests[29] =  "rv32ui-p-beq.mem";
-        tests[31] =  "rv32ui-p-jal.mem";
-        tests[32] =  "rv32ui-p-lw.mem";
-        tests[33] =  "rv32ui-p-sll.mem";
-        tests[34] =  "rv32ui-p-srli.mem";
-        tests[35] =  "rv32ui-p-bge.mem";
-        tests[36] =  "rv32ui-p-jalr.mem";
-        tests[37] =  "rv32ui-p-ori.mem";
-        tests[38] =  "rv32ui-p-slti.mem";
-        tests[39] =  "rv32ui-p-srl.mem";
+        tests[30] =  "rv32ui-p-jal.mem";
+        tests[31] =  "rv32ui-p-lw.mem";
+        tests[32] =  "rv32ui-p-sll.mem";
+        tests[33] =  "rv32ui-p-srli.mem";
+        tests[34] =  "rv32ui-p-bge.mem";
+        tests[35] =  "rv32ui-p-jalr.mem";
+        tests[36] =  "rv32ui-p-ori.mem";
+        tests[37] =  "rv32ui-p-slti.mem";
+        tests[38] =  "rv32ui-p-srl.mem";
 
         
         for(k = 0; k < 39; k=k+1)
@@ -207,6 +164,7 @@ module steel_core_tb();
           end
         
         $display("Steel Core testbench done. If all results are 00000001 then everything works fine.");
+        $finish;
         
      end
    

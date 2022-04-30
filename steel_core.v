@@ -244,9 +244,6 @@
 // Machine Counter Setup
 `define MCOUNTINHIBIT   12'h320
 
-// Error testing definition
-//`define _TEST_CORRECTION_INTEGER_FILE
-
 /* verilator lint_off DECLFILENAME */
 /* verilator lint_off UNUSED */
 /* verilator lint_off UNOPTFLAT */
@@ -1271,7 +1268,7 @@ module integer_file(
                     input wire         WR_EN,
                     input wire [31:0]  RD
                                        
-`ifdef _TEST_CORRECTION_INTEGER_FILE
+`ifdef TEST_CORRECTION_INTEGER_FILE
                     ,
                     // Error insertion address for fault-tolerance testing
                     input wire [4:0]   ERROR_ADDR
@@ -1333,7 +1330,7 @@ module integer_file(
    assign RS_2 = op2_zero == 1'b1 ? 32'h00000000 : rs2_wire;
 
    // Fault-tolerance
-`ifdef _TEST_CORRECTION_INTEGER_FILE
+`ifdef TEST_CORRECTION_INTEGER_FILE
    // Error injection
    always @(posedge CLK)
         Q0[ERROR_ADDR] <= 32'hffffffff;
@@ -1355,7 +1352,19 @@ module integer_file(
    // Voting Mechanism
    assign rs1_pipe = q0_fault ? Q1[RS_1_ADDR] : Q0[RS_1_ADDR];
    assign rs2_pipe = q0_fault ? Q1[RS_2_ADDR] : Q0[RS_2_ADDR];
-                        
+
+`ifdef ENABLE_IRF_SCRUB
+   // Scrubbing Mechanism
+   always @(posedge CLK)
+     for (i = 0; i <= 31; i++) begin
+        if (q0_fault_at[i])
+          Q0[i] <= Q1[i];
+        if (q1_fault_at[i])
+          Q1[i] <= Q0[i];
+        if (q2_fault_at[i])
+          Q2[i] <= Q0[i];
+     end
+`endif
    
 endmodule
 

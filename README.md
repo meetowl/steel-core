@@ -4,7 +4,9 @@
 
 Steel is a RISC-V processor core that implements the RV32I and Zicsr instruction sets of the RISC-V specifications. It is designed to be simple and easy to use.
 
-This fork is a modification of the original steel core, to implement Fault-Tolerance into the integer file. Please refer to the parent of this project for official documentation and guidance.
+This is a fork of the steel core project created by Rafael Calcada: https://github.com/rafaelcalcada/steel-core . Please refer to the parent of this project for official documentation and guidance.
+
+This modification of the original steel core, to implement Fault-Tolerance into the integer file. 
 
 This work serves as the source code to my B.Sc. Dissertation.
 

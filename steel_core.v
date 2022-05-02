@@ -1340,6 +1340,7 @@ module integer_file(
  `elsif IRF_TEST_FAULT_2 
       Q2[ERROR_ADDR] <= 32'hffffffff;
  `else
+      // Throw out some default value
       Q0[2] <= 32'hffffffff;
  `endif
    end
@@ -1362,10 +1363,11 @@ module integer_file(
    assign rs1_pipe = q0_fault ? Q1[RS_1_ADDR] : Q0[RS_1_ADDR];
    assign rs2_pipe = q0_fault ? Q1[RS_2_ADDR] : Q0[RS_2_ADDR];
 
-`ifdef ENABLE_IRF_SCRUB
+
+`ifdef IRF_SCRUB
    // Scrubbing Mechanism
    always @(posedge CLK)
-     for (i = 0; i <= 31; i++) begin
+     for (i = 1; i <= 31; i++) begin
         if (q0_fault_at[i])
           Q0[i] <= Q1[i];
         if (q1_fault_at[i])
@@ -1374,7 +1376,6 @@ module integer_file(
           Q2[i] <= Q0[i];
      end
 `endif
-   
 endmodule
 
 module decoder(

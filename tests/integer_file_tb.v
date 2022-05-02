@@ -115,7 +115,7 @@ module integer_file_tb();
              if(RS_1 != 32'h00000000)
                begin
                   $display("FAIL. Check the results.");
-                  $finish;
+                  $finish(1);
                end
              
           end
@@ -129,8 +129,11 @@ module integer_file_tb();
              
              RD_ADDR = i[4:0];
              WR_EN = 1'b1;
-             RD = i;        
-             ERROR_ADDR = i;    
+             RD = i;
+
+`ifdef IRF_SCRUB
+             ERROR_ADDR = i;
+`endif
              
              #20;
              
@@ -145,12 +148,12 @@ module integer_file_tb();
                   if(RS_1 != 32'h00000000)
                     begin
                        $display("FAIL. Check the results.");
-                       $finish;
+                       $finish(1);
                     end
                   if(RS_2 != 32'h00000000)
                     begin
                        $display("FAIL. Check the results.");
-                       $finish;
+                       $finish(1);
                     end
                end
              if(RD_ADDR != 5'b00000)
@@ -158,12 +161,12 @@ module integer_file_tb();
                   if(RS_1 != RD)
                     begin
                        $display("FAIL. Check the results.");
-                       $finish;
+                       $finish(1);
                     end
                   if(RS_2 != RD)
                     begin
                        $display("FAIL. Check the results.");
-                       $finish;
+                       $finish(1);
                     end
                end        
              
@@ -184,14 +187,17 @@ module integer_file_tb();
           begin
              
              RS_1_ADDR = i[4:0];
+             
+`ifdef IRF_SCRUB
              ERROR_ADDR = i;
+`endif
              
              #20;
 
              if(RS_1 != i)
                begin
                   $display("FAIL. Check the results.");
-                  $finish;
+                  $finish(1);
                end
              
           end
@@ -199,7 +205,7 @@ module integer_file_tb();
         $display("Post-write values OK.");        
         
         $display("Integer Register File successfully tested.");
-        $finish(1);
+        $finish(0);
         
      end
 

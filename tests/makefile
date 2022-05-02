@@ -1,3 +1,4 @@
+# Change this to the git repository directory
 BASE_DIR = /home/meetowl/uni/project/cores/steel-core-mine
 
 BIN_DIR = $(BASE_DIR)/tests/bin
@@ -25,8 +26,8 @@ integer_file_scrub: $(BIN_DIR)
 
 steel_core: $(BIN_DIR)
 	$(IVERILOG) $(IVERILOG_FLAGS) -DIRF_TEST_FAULT -DERROR_ADDR=2 -o$(RISCV_BIN_PATH) $(TESTS_DIR)/steel_core_tb.v 
-	cd $(RISCV_DIR) && $(BIN_PATH) | grep "^Result: "
+	cd $(RISCV_DIR) && $(RISCV_BIN_PATH) | grep -i "result"
 
 steel_core_scrub: $(BIN_DIR)
 	$(IVERILOG) $(IVERILOG_FLAGS) -DIRF_TEST_FAULT -DIRF_SCRUB -o$(RISCV_BIN_PATH) $(TESTS_DIR)/steel_core_tb.v
-	cd $(RISCV_DIR) && $(BIN_PATH) | grep "^Result: "
+	cd $(RISCV_DIR) && $(RISCV_BIN_PATH) | grep -i "result"
